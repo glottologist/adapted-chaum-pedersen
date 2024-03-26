@@ -1,6 +1,8 @@
 ### Devenv ###
 .devenv
 
+# Pre commits
+.pre-commit-config.yaml
 
 ### Nix ###
 result

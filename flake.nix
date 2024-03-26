@@ -73,7 +73,7 @@
               clippy.enable = true;
               rustfmt.enable = true;
             };
-            settings.rust.cargoManifestPath = "./src/Cargo.toml";
+            settings.rust.cargoManifestPath = "./Cargo.toml";
           };
         };
       };
