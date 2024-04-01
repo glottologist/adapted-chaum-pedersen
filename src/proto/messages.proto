@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package acp.items;
+
+message TestMessage {
+    string test = 1;
+}

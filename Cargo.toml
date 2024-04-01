@@ -3,4 +3,26 @@ name = "acp"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+path = "src/bin/client.rs"
+name = "client"
+
+[[bin]]
+path = "src/bin/server.rs"
+name = "server"
+
 [dependencies]
+anyhow = "1.0.81"
+prost = "0.12.3"
+thiserror = "1.0.58"
+tokio = { version = "1.37.0", features = ["full"] }
+tonic = "0.11.0"
+tracing = "0.1.40"
+tracing-subscriber = "0.3.18"
+
+[build-dependencies]
+prost-build = "0.12.3"
+tonic-build = "0.11.0"

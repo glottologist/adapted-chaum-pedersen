@@ -42,17 +42,24 @@
         system,
         ...
       }: rec {
-        devenv.shells.default = devenv.shells.rust;
-        devenv.shells.rust = {
+        packages = rec {
+          default = pkgs.callPackage ./default.nix {inherit pkgs;};
+        };
+
+        devenv.shells.default = {
           name = "Shell for Adapted Chaum-Pederson";
-          env.GREET = "Welcome to the Rust dev shell";
+          env.GREET = "Welcome to the ACP dev shell";
           packages = with pkgs; [
             git
             mdbook
             mdbook-i18n-helpers
             mdbook-mermaid
+            protobuf
           ];
           enterShell = ''
+            export PROTOBUF_LOCATION=${pkgs.protobuf}
+            export PROTOC=$PROTOBUF_LOCATION/bin/protoc
+            export PROTOC_INCLUDE=$PROTOBUF_LOCATION/include
             git --version
             rustc --version
             cargo --version
@@ -63,6 +70,14 @@
             rust.channel = "nightly";
             nix.enable = true;
           };
+
+          scripts.client.exec = ''
+            cargo run --bin client
+          '';
+          scripts.server.exec = ''
+            cargo run --bin server
+          '';
+
           dotenv.enable = true;
           difftastic.enable = true;
           pre-commit = {
