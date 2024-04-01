@@ -34,12 +34,21 @@ pub struct ClientArgs {
     // Flag indicating whether a secure connection should be established, parsed as a boolean value.
     #[arg(short, long = "user", help = "The user id for authentication")]
     pub user: String,
+
+    #[arg(action = ArgAction::SetFalse, short='e', long = "use-ec", help = "Indicates if the client/server pair should use elliptic curves rather than exponents.")]
+    pub use_ec: bool,
 }
 
 #[derive(Args)]
 pub struct ServerArgs {
-    #[arg(short, long, value_parser = resolve_target, help = "The port on which to bind the authentication server")]
-    pub port: usize,
+    #[arg(
+        short,
+        long,
+        help = "The port on which to bind the authentication server"
+    )]
+    pub port: u32,
+    #[arg(action = ArgAction::SetFalse, short='e' ,long = "use-ec", help = "Indicates if the client/server pair should use elliptic curves rather than exponents.")]
+    pub use_ec: bool,
 }
 
 #[derive(Subcommand)]

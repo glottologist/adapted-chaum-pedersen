@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package acp.messages;
+package zkp_auth;
 
 
 message RegisterRequest {

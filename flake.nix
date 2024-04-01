@@ -72,10 +72,10 @@
           };
 
           scripts.client.exec = ''
-            cargo run --bin client
+            cargo run --bin acp -- client --user test --server-address "127.0.0.0:8080"
           '';
           scripts.server.exec = ''
-            cargo run --bin server
+            cargo run --bin acp -- server --port 8080
           '';
 
           dotenv.enable = true;
