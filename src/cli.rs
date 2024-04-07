@@ -1,4 +1,4 @@
-use clap::{ArgAction, Args, Parser, Subcommand};
+use clap::{Args, Parser, Subcommand};
 use std::{
     io::{Error, ErrorKind, Result},
     net::{SocketAddr, ToSocketAddrs},
@@ -34,9 +34,6 @@ pub struct ClientArgs {
     // Flag indicating whether a secure connection should be established, parsed as a boolean value.
     #[arg(short, long = "user", help = "The user id for authentication")]
     pub user: String,
-
-    #[arg(action = ArgAction::SetFalse, short='e', long = "use-ec", help = "Indicates if the client/server pair should use elliptic curves rather than exponents.")]
-    pub use_ec: bool,
 }
 
 #[derive(Args)]
@@ -47,24 +44,29 @@ pub struct ServerArgs {
         help = "The port on which to bind the authentication server"
     )]
     pub port: u32,
-    #[arg(action = ArgAction::SetFalse, short='e' ,long = "use-ec", help = "Indicates if the client/server pair should use elliptic curves rather than exponents.")]
-    pub use_ec: bool,
+    #[arg(
+        short = 'e',
+        long = "use-elliptic-curve",
+        help = "Indicates if the client/server pair should use elliptic curves rather than exponents."
+    )]
+    pub use_elliptic_curve: bool,
 }
 
 #[derive(Subcommand)]
 pub enum Command {
-    #[command(aliases = ["c"])]
-    Client(ClientArgs),
+    #[command(aliases = ["r"])]
+    Register(ClientArgs),
+    #[command(aliases = ["a"])]
+    Authenticate(ClientArgs),
     #[command(aliases = ["s"])]
     Server(ServerArgs),
 }
 
-#[cfg(test)]
 mod tests {
     use {
         super::*,
         proptest::{
-            prelude::{Just, ProptestConfig, Strategy},
+            prelude::{Just, Strategy},
             prop_oneof, proptest,
         },
         test_case::test_case,

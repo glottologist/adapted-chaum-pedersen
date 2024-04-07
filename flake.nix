@@ -71,8 +71,11 @@
             nix.enable = true;
           };
 
-          scripts.client.exec = ''
-            cargo run --bin acp -- client --user test --server-address "127.0.0.0:8080"
+          scripts.register.exec = ''
+            cargo run --bin acp -- register --server-address "127.0.0.1:8080" --user $1
+          '';
+          scripts.authenticate.exec = ''
+            cargo run --bin acp -- authenticate --server-address "127.0.0.1:8080" --user $1
           '';
           scripts.server.exec = ''
             cargo run --bin acp -- server --port 8080
