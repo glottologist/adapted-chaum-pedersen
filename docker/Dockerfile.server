@@ -1,0 +1,21 @@
+FROM rust:1.77.1 AS builder
+
+RUN apt-get update -y \
+  && apt-get install -y protobuf-compiler libprotobuf-dev
+
+WORKDIR /acp
+
+COPY . .
+
+RUN cargo build --release
+
+FROM debian:bookworm-slim
+
+# Copy the compiled binaries into the new container.
+COPY --from=builder /acp/target/release/acp /usr/bin/acp
+
+EXPOSE 8080
+
+CMD ["acp","server","--port","8080"]
+
+
