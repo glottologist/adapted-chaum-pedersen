@@ -25,16 +25,16 @@ impl Authenticate for EllipticCurve {
         unimplemented!("No support for Elliptic Curves yet")
     }
 
-    fn registration(&self, nonce: &BigUint) -> (BigUint, BigUint) {
+    fn registration(&self, _secret: &BigUint) -> (BigUint, BigUint) {
         unimplemented!("No support for Elliptic Curves yet")
     }
     fn challenge(&self) -> BigUint {
         unimplemented!("No support for Elliptic Curves yet")
     }
-    fn response(&self, nonce: &BigUint, secret: &BigUint, challenge: &BigUint) -> BigUint {
+    fn response(&self, _nonce: &BigUint, _secret: &BigUint, _challenge: &BigUint) -> BigUint {
         unimplemented!("No support for Elliptic Curves yet")
     }
-    fn authentication(&self, secret: &BigUint) -> (BigUint, BigUint) {
+    fn authentication(&self, _nonce: &BigUint) -> (BigUint, BigUint) {
         unimplemented!("No support for Elliptic Curves yet")
     }
     fn verify(
