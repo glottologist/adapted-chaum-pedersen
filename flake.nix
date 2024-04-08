@@ -64,6 +64,11 @@
             rustc --version
             cargo --version
             mdbook --version
+            cargo install cargo-watch
+            cargo install cargo-modules
+            cargo install cargo-audit
+            cargo install cargo-nextest
+            cargo install cargo-expand
           '';
           languages = {
             rust.enable = true;
@@ -71,15 +76,34 @@
             nix.enable = true;
           };
 
-          scripts.register.exec = ''
-            cargo run --bin acp -- register --server-address "127.0.0.1:8080" --user $1
-          '';
-          scripts.authenticate.exec = ''
-            cargo run --bin acp -- authenticate --server-address "127.0.0.1:8080" --user $1
-          '';
-          scripts.server.exec = ''
-            cargo run --bin acp -- server --port 8080
-          '';
+          scripts = {
+            nextest.exec = ''
+              cargo nextest run
+            '';
+            audit.exec = ''
+              cargo audit
+            '';
+            lib.exec = ''
+              cargo modules structure --lib
+            '';
+            bin.exec = ''
+              cargo modules structure --bin acp
+            '';
+
+            watch.exec = ''
+              cargo watch -c -q -w ./src -x build
+            '';
+
+            register.exec = ''
+              cargo run --bin acp -- register --server-address "127.0.0.1:8080" --user $1
+            '';
+            authenticate.exec = ''
+              cargo run --bin acp -- authenticate --server-address "127.0.0.1:8080" --user $1
+            '';
+            server.exec = ''
+              cargo run --bin acp -- server --port 8080
+            '';
+          };
 
           dotenv.enable = true;
           difftastic.enable = true;
@@ -87,7 +111,6 @@
             hooks = {
               alejandra.enable = true;
               commitizen.enable = true;
-              cargo-check.enable = true;
               clippy.enable = true;
               rustfmt.enable = true;
             };
